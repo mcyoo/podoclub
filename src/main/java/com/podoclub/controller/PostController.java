@@ -2,6 +2,7 @@ package com.podoclub.controller;
 
 import com.podoclub.domain.Post;
 import com.podoclub.request.PostCreate;
+import com.podoclub.response.PostResponse;
 import com.podoclub.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,8 +80,8 @@ public class PostController {
         */
     }
     @GetMapping("/posts/{postId}")
-    public Post get(@PathVariable(name = "postId") Long id){
-        Post post = postService.get(id);
+    public PostResponse get(@PathVariable(name = "postId") Long id){
+        PostResponse post = postService.get(id);
         return post;
     }
 }

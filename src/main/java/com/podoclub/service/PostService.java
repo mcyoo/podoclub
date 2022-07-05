@@ -3,6 +3,7 @@ package com.podoclub.service;
 import com.podoclub.domain.Post;
 import com.podoclub.repository.PostRepository;
 import com.podoclub.request.PostCreate;
+import com.podoclub.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,16 @@ public class PostService {
         return post.getId();
     }
 
-    public Post get(Long id){
+    public PostResponse get(Long id){
         Post post = postRepository.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 글입니다."));
 
-        return post;
+        PostResponse response = PostResponse.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build();
+
+        return response;
     }
 }
