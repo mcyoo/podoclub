@@ -3,6 +3,7 @@ package com.podoclub.service;
 import com.podoclub.domain.Post;
 import com.podoclub.repository.PostRepository;
 import com.podoclub.request.PostCreate;
+import com.podoclub.request.PostSearch;
 import com.podoclub.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -105,13 +106,18 @@ class PostServiceTest {
         ));
          */
 
-        Pageable pageable = PageRequest.of(0,5, DESC,"id");
+        //Pageable pageable = PageRequest.of(0,5, DESC,"id");
+
+        PostSearch postSearch = PostSearch.builder()
+                .page(1)
+                .size(10)
+                .build();
 
         //when
-        List<PostResponse> posts = postService.getList(pageable);
+        List<PostResponse> posts = postService.getList(postSearch);
 
         //then
-        assertEquals(5L,posts.size());
+        assertEquals(10L,posts.size());
         assertEquals("제목 30",posts.get(0).getTitle());
         assertEquals("제목 26",posts.get(4).getTitle());
     }

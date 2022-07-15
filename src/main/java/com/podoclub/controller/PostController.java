@@ -2,6 +2,7 @@ package com.podoclub.controller;
 
 import com.podoclub.domain.Post;
 import com.podoclub.request.PostCreate;
+import com.podoclub.request.PostSearch;
 import com.podoclub.response.PostResponse;
 import com.podoclub.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -89,8 +90,8 @@ public class PostController {
 
 
     @GetMapping("/posts")
-    public List<PostResponse> getList(Pageable pageable){
-        return postService.getList(pageable);
+    public List<PostResponse> getList(@ModelAttribute PostSearch postSearch){
+        return postService.getList(postSearch);
     }
 
 }
