@@ -2,6 +2,7 @@ package com.podoclub.controller;
 
 import com.podoclub.domain.Post;
 import com.podoclub.request.PostCreate;
+import com.podoclub.request.PostEdit;
 import com.podoclub.request.PostSearch;
 import com.podoclub.response.PostResponse;
 import com.podoclub.service.PostService;
@@ -93,5 +94,8 @@ public class PostController {
     public List<PostResponse> getList(@ModelAttribute PostSearch postSearch){
         return postService.getList(postSearch);
     }
-
+    @PatchMapping("/posts/{postId}")
+    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit postEdit) {
+        postService.edit(postId,postEdit);
+    }
 }

@@ -24,6 +24,16 @@ public class Post {
         this.content = content;
     }
 
+    public PostEditor.PostEditorBuilder toEditor() {
+        return PostEditor.builder()
+                .title(title)
+                .content(content);
+    }
+    public void edit(PostEditor postEditor){
+        title = postEditor.getTitle();
+        content = postEditor.getContent();
+    }
+
     public String getTitle(){
         //서비스의 정책을 넣지마세요!! 절대!!
         return this.title;//.substring(0,10);

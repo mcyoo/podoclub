@@ -3,6 +3,7 @@ package com.podoclub.service;
 import com.podoclub.domain.Post;
 import com.podoclub.repository.PostRepository;
 import com.podoclub.request.PostCreate;
+import com.podoclub.request.PostEdit;
 import com.podoclub.request.PostSearch;
 import com.podoclub.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -120,5 +121,57 @@ class PostServiceTest {
         assertEquals(10L,posts.size());
         assertEquals("제목 30",posts.get(0).getTitle());
         assertEquals("제목 26",posts.get(4).getTitle());
+    }
+
+    @Test
+    @DisplayName("글 제목 수정")
+    void Test4(){
+
+        //given
+        Post post = Post.builder()
+                .title("제석")
+                .content("짱")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("젝슨")
+                .content("짱")
+                .build();
+        //when
+        postService.edit(post.getId(),postEdit);
+
+        //then
+        Post changedPost = postRepository.findById(post.getId())
+                        .orElseThrow(()->new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+
+        assertEquals("젝슨",changedPost.getTitle());
+    }
+
+    @Test
+    @DisplayName("글 내용 수정")
+    void Test5(){
+
+        //given
+        Post post = Post.builder()
+                .title("제석")
+                .content("짱짱맨")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("젝슨")
+                .content("짱")
+                .build();
+        //when
+        postService.edit(post.getId(),postEdit);
+
+        //then
+        Post changedPost = postRepository.findById(post.getId())
+                .orElseThrow(()->new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+
+        assertEquals("짱",changedPost.getContent());
     }
 }

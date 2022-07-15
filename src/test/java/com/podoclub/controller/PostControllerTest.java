@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.podoclub.domain.Post;
 import com.podoclub.repository.PostRepository;
 import com.podoclub.request.PostCreate;
+import com.podoclub.request.PostEdit;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -173,4 +173,30 @@ class PostControllerTest {
                 .andExpect(jsonPath("$[0].title").value("제목 20"))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("글 수정")
+    void test6() throws Exception {
+        //given
+        Post post = postRepository.save(Post.builder()
+                .title("1")
+                .content("1")
+                .build()
+        );
+        PostEdit postEdit = PostEdit.builder()
+                .title("2")
+                .content("2")
+                .build();
+
+        String json = objectMapper.writeValueAsString(postEdit);
+
+        //expected
+        mockMvc.perform(patch("/posts/{postId}",post.getId())
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
 }
