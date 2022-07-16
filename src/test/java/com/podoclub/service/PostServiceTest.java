@@ -6,6 +6,7 @@ import com.podoclub.request.PostCreate;
 import com.podoclub.request.PostEdit;
 import com.podoclub.request.PostSearch;
 import com.podoclub.response.PostResponse;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -174,4 +175,22 @@ class PostServiceTest {
 
         assertEquals("짱",changedPost.getContent());
     }
+    @Test
+    @DisplayName("글 삭제")
+    void Test6(){
+
+        //given
+        Post post = Post.builder()
+                .title("제석")
+                .content("짱짱맨")
+                .build();
+        postRepository.save(post);
+
+        //when
+        postService.delete(post.getId());
+
+        //then
+        assertEquals(0,postRepository.count());
+    }
+
 }
