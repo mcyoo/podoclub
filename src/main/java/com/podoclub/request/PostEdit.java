@@ -1,5 +1,7 @@
 package com.podoclub.request;
 
+import com.podoclub.exception.InvaildRequest;
+import com.querydsl.core.util.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +24,14 @@ public class PostEdit {
     public PostEdit(String title, String content){
         this.title = title;
         this.content = content;
+    }
+
+    public void validate(){
+        if(StringUtils.isNullOrEmpty(title)){
+            throw new InvaildRequest("title","제목은 필수 입니다.");
+        }
+        if(StringUtils.isNullOrEmpty(content)){
+            throw new InvaildRequest("content","내용은 필수 입니다.");
+        }
     }
 }

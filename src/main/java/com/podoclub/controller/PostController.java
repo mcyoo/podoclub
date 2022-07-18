@@ -1,6 +1,7 @@
 package com.podoclub.controller;
 
 import com.podoclub.domain.Post;
+import com.podoclub.exception.InvaildRequest;
 import com.podoclub.request.PostCreate;
 import com.podoclub.request.PostEdit;
 import com.podoclub.request.PostSearch;
@@ -34,7 +35,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public Map post(@RequestBody @Valid PostCreate request) {
+    public Map post(@RequestBody PostCreate request) {
+        request.validate();
         // Case 1 : 저장한 데이터 Entity -> response로 응답하기
         // Case 2 : 저장한 데이터의 primary id 만 응답
         //          Client 에서는 수신한 id를 가지고 글 조회 API 를 통해서 데이터를 수신 받음
@@ -88,17 +90,15 @@ public class PostController {
         return postService.get(postId);
     }
 
-
-
     @GetMapping("/posts")
     public List<PostResponse> getList(@ModelAttribute PostSearch postSearch){
         return postService.getList(postSearch);
     }
     @PatchMapping("/posts/{postId}")
-    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit postEdit) {
+    public void edit(@PathVariable Long postId, @RequestBody PostEdit postEdit) {
+        postEdit.validate();
         postService.edit(postId,postEdit);
     }
-
     @DeleteMapping("/posts/{postId}")
     public void delete(@PathVariable Long postId) {
         postService.delete(postId);

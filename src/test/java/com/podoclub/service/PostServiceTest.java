@@ -1,6 +1,7 @@
 package com.podoclub.service;
 
 import com.podoclub.domain.Post;
+import com.podoclub.exception.PostNotFound;
 import com.podoclub.repository.PostRepository;
 import com.podoclub.request.PostCreate;
 import com.podoclub.request.PostEdit;
@@ -193,4 +194,58 @@ class PostServiceTest {
         assertEquals(0,postRepository.count());
     }
 
+    @Test
+    @DisplayName("글 1개 조회 - 존재하지 않는 글")
+    void Test7(){
+
+        //given
+        Post post = Post.builder()
+                .title("제석")
+                .content("짱짱맨")
+                .build();
+        postRepository.save(post);
+
+        // expected
+        assertThrows(PostNotFound.class,()->{
+            postService.get(post.getId() + 1L);
+        });
+    }
+    @Test
+    @DisplayName("글 삭제 - 존재하지 않는 글")
+    void Test8(){
+
+        //given
+        Post post = Post.builder()
+                .title("제석")
+                .content("짱짱맨")
+                .build();
+        postRepository.save(post);
+
+        // expected
+        assertThrows(PostNotFound.class,()->{
+            postService.delete(post.getId() + 1L);
+        });
+    }
+    @Test
+    @DisplayName("글 내용 수정 - 존재하지 않는 글")
+    void Test9(){
+
+        //given
+        Post post = Post.builder()
+                .title("제석")
+                .content("짱짱맨")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("젝슨")
+                .content("짱")
+                .build();
+
+        // expected
+        assertThrows(PostNotFound.class,()->{
+            postService.edit(post.getId() + 1L,postEdit);
+        });
+    }
 }
