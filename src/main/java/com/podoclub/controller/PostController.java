@@ -1,7 +1,5 @@
 package com.podoclub.controller;
 
-import com.podoclub.domain.Post;
-import com.podoclub.exception.InvaildRequest;
 import com.podoclub.request.PostCreate;
 import com.podoclub.request.PostEdit;
 import com.podoclub.request.PostSearch;
@@ -9,14 +7,8 @@ import com.podoclub.response.PostResponse;
 import com.podoclub.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +25,6 @@ public class PostController {
     //POST
 
     private final PostService postService;
-
     @PostMapping("/posts")
     public Map post(@RequestBody PostCreate request) {
         request.validate();
